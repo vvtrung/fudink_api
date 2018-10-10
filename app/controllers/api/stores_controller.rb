@@ -15,7 +15,7 @@ class Api::StoresController < ApplicationController
   private
 
   def load_store
-    @store = Store.find params[:id]
+    @store = Store.find_by! id: params[:id]
   end
 
   def store_params
