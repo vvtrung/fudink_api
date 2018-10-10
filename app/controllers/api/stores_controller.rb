@@ -4,7 +4,8 @@ class Api::StoresController < ApplicationController
   def index
     stores_accepted = Store.accepted.paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
     stores_serializer = parse_json stores_accepted
-    json_pagination stores_serializer, params[:page], params[:per_page], stores_accepted.total_pages, stores_accepted.total_entries
+    json_response_pagination stores_serializer, params[:page], params[:per_page],
+      stores_accepted.total_pages, stores_accepted.total_entries
   end
 
   def show
