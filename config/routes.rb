@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :api do
-    resources :categories, only: :index
+    resources :categories, only: %i(index show)
     resources :stores
   end
   post 'auth/login', to: 'authentication#login'
