@@ -13,9 +13,24 @@ Role.create!(name: "Customer")
 Category.create!(name: "Milk Tea")
 Category.create!(name: "An Vat")
 
-User.create!(name: "vo van trung", email: "vts@gmail.com", password: "123123123",
-  phone: "0973857454", address: "k34/54 auco", role_id: 3)
+User.create!(name: Faker::Name.name, email: Faker::Internet.free_email, password: "123123123",
+  phone: "0973857454", address: Faker::Address.street_address, role_id: 3)
 
 20.times.each do |i|
-  Store.create!(name: Faker::Name.name, email: "Store#{i}@gmail.com", user_id: 1)
+  Store.create!(name: Faker::Name.name, email: Faker::Internet.free_email, user_id: 1, phone: "0973857454", address: Faker::Address.street_address, status: "accepted")
+end
+
+Store.all.each do |store|
+  Category.all.each do |category|
+    20.times.each do |i|
+      Product.create!(name: Faker::Name.name, category_id: category.id, store_id: store.id,
+        product_type: "food")
+      Product.create!(name: Faker::Name.name, category_id: category.id, store_id: store.id,
+        product_type: "drink")
+    end
+  end
+end
+
+Product.all.each do |product|
+  Size.create!(product_id: product.id, size: "M", price: 10000)
 end

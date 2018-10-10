@@ -5,4 +5,6 @@ class Product < ApplicationRecord
   has_many :rates, dependent: :destroy
   has_many :detail_orders, dependent: :destroy
   has_many :images, as: :media, dependent: :destroy
+
+  enum product_type: %i(food drink)
 end
