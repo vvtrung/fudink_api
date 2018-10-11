@@ -8,6 +8,6 @@ class Api::ProductsController < ApplicationController
   private
 
   def load_product
-    @product = Product.find_by! id: params[:id]
+    @product = Product.includes(:images, :rates, :sizes, :store, :category).find_by! id: params[:id]
   end
 end
