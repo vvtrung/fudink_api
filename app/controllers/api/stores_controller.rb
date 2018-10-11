@@ -6,14 +6,13 @@ class Api::StoresController < ApplicationController
     stores_accepted = Store.accepted.paginate page: params[:page] ||= 1,
       per_page: params[:per_page] ||= 10
     stores_serializer = parse_json stores_accepted
-    json_response_pagination stores_serializer, params[:page], params[:per_page],
+    json_response_pagination stores_serializer, params[:page] ||= 1, params[:per_page],
       stores_accepted.total_pages, stores_accepted.total_entries
   end
 
   def show
     store_serializer = parse_json @store
-    products_serializer = {food: @foods_serializer, drink: @drinks_serializer}
-    hash_source = {store: store_serializer[:store], products: products_serializer}
+    hash_source = {store: store_serializer[:store], food: @foods_serializer, drink: @drinks_serializer}
     json_response hash_source
   end
 
@@ -28,16 +27,16 @@ class Api::StoresController < ApplicationController
   end
 
   def load_foods_serializer_by_store
-    foods_by_store = @store.products.food.paginate page: params[:page] ||= 1,
-      per_page: params[:per_page] ||= 10
-    @foods_serializer = json_pagination foods_by_store, params[:page], params[:per_page],
-      foods_by_store.total_pages, foods_by_store.total_entries
+    foods_by_store = @store.products.food.includes(:images).paginate page: params[:food_page] ||= 1,
+      per_page: params[:food_per_page] ||= 10
+    @foods_serializer = json_pagination parse_json(foods_by_store), params[:food_page] ||= 1,
+      params[:food_per_page], foods_by_store.total_pages, foods_by_store.total_entries
   end
 
   def load_drinks_serializer_by_store
-    drinks_by_store = @store.products.food.paginate page: params[:page] ||= 1,
-      per_page: params[:per_page] ||= 10
-    @drinks_serializer = json_pagination drinks_by_store, params[:page], params[:per_page],
-      drinks_by_store.total_pages, drinks_by_store.total_entries
+    drinks_by_store = @store.products.food.includes(:images).paginate page: params[:drink_page] ||= 1,
+      per_page: params[:drink_per_page] ||= 10
+    @drinks_serializer = json_pagination parse_json(drinks_by_store), params[:food_page] ||= 1,
+      params[:drink_per_page], drinks_by_store.total_pages, drinks_by_store.total_entries
   end
 end

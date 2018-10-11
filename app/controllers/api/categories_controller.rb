@@ -7,7 +7,11 @@ class Api::CategoriesController < ApplicationController
   end
 
   def show
-    hash_source = {category: @category, products: @products_serializer}
+    hash_source = {
+      category: @category,
+      products: @products_serializer[:products],
+      pagination: @products_serializer[:pagination]
+    }
     json_response hash_source
   end
 
@@ -20,7 +24,7 @@ class Api::CategoriesController < ApplicationController
   def load_products_serializer_by_category
     products_by_category = @category.products.paginate page: params[:page] ||= 1,
       per_page: params[:per_page] ||= 10
-    @products_serializer = json_pagination products_by_category, params[:page], params[:per_page],
-      products_by_category.total_pages, products_by_category.total_entries
+    @products_serializer = json_pagination parse_json(products_by_category), params[:page] ||= 1,
+      params[:per_page], products_by_category.total_pages, products_by_category.total_entries
   end
 end
