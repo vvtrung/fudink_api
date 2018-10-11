@@ -13,6 +13,7 @@ class AuthenticateUser
   end
 
   private
+
   def user
     user = User.find_by(email: email)
     return user if user && user.authenticate(password)

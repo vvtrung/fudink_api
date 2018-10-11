@@ -24,6 +24,7 @@ module ExceptionHandler
   def render_authorization_error error
     error_type = error.class.name.scan(/ExceptionHandler::(.*)/).flatten.first.underscore.to_sym
     response = {
+      success: false,
       message: Settings.handle_error.public_send(error_type).message,
       error_code: Settings.handle_error.public_send(error_type).error_code
     }
