@@ -6,7 +6,7 @@ module Response
   def json_response_pagination object, page, per_page, total_pages, total_entries
     render json: {
       success: true,
-      data: object,
+      "#{object.keys[0]}": object[object.keys[0]],
       pagination: {
         page: page.to_i,
         per_page: per_page,
@@ -18,7 +18,7 @@ module Response
 
   def json_pagination object, page, per_page, total_pages, total_entries
     {
-      data: object,
+      "#{object.keys[0]}": object[object.keys[0]],
       pagination: {
         page: page.to_i,
         per_page: per_page,

@@ -1,6 +1,6 @@
 class DetailOrderSerializer < ActiveModel::Serializer
   attributes :id, :quantity, :price
-  has_one :product
-  has_one :size
-  has_one :order
+  belongs_to :product
+  belongs_to :size
+  belongs_to :order
 end

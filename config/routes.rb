@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     resources :categories, only: %i(index show)
-    resources :stores
+    resources :stores, only: %i(index show)
+    resources :products, only: :show
   end
   post 'auth/login', to: 'authentication#login'
   delete 'auth/logout', to: 'authentication#logout'
