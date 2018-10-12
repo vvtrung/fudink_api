@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :categories, only: %i(index show)
     resources :stores, only: %i(index show)
     resources :products, only: :show
+    resources :carts
   end
   post "api/login", to: "authentication#login"
   delete "api/logout", to: "authentication#logout"
