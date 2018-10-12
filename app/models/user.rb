@@ -17,6 +17,8 @@ class User < ApplicationRecord
     length: {in: Settings.validations.strings.min_length..Settings.validations.strings.max_length}
   validates :name, presence: true,
     length: {in: Settings.validations.strings.min_length..Settings.validations.strings.max_length}
-  validates :phone, presence: true, format: {with: Settings.validations.phone_regex}
-  validates :address, presence: true
+  validates :phone, presence: true,
+    format: {with: Settings.validations.phone_regex},
+    allow_nil: true
+  validates :address, presence: true, allow_nil: true
 end

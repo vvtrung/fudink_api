@@ -1,10 +1,10 @@
 module Response
   def json_response(object, message = nil, status = :ok)
-    hash_source = {
-      success: true,
-      data: object
-    }
+    hash_source = {success: true}
     hash_source[:message] = message if message.present?
+    object.each do |key, val|
+      hash_source[key] = val
+    end
     render json: hash_source, status: status
   end
 
