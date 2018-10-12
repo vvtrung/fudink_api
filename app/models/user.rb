@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_one :shipper, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :orders, dependent: :destroy
+  has_many :carts, dependent: :destroy
 
   validates :email, presence: true,
     length: {in: Settings.validations.strings.min_length..Settings.validations.strings.max_length},

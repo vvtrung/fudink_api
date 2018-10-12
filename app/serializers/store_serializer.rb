@@ -1,5 +1,5 @@
 class StoreSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :phone, :address, :open_at, :close_at, :description
-  belongs_to :user
+  belongs_to :store_owner, class_name: User.name, foreign_key: :user_id
   has_many :images
 end

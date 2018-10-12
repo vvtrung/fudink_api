@@ -35,3 +35,7 @@ en:
       messages:
         not_found:
           default: Couldn't find %{resource}
+  carts:
+    created_success: "Added item to cart success"
+    updated_success: "Updated quantity success"
+    destroyed_success: "Removed item from cart success"

@@ -1,6 +1,11 @@
 module Response
-  def json_response(object, status = :ok)
-    render json: {success: true, data: object}, status: status
+  def json_response(object, message = nil, status = :ok)
+    hash_source = {
+      success: true,
+      data: object
+    }
+    hash_source[:message] = message if message.present?
+    render json: hash_source, status: status
   end
 
   def json_response_pagination object, page, per_page, total_pages, total_entries
