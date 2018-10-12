@@ -1,3 +1,4 @@
 class AuthTokenSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :token, :refresh_token, :expired_at
+  belongs_to :user
 end

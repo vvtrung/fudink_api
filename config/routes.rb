@@ -5,8 +5,10 @@ Rails.application.routes.draw do
     resources :products, only: :show
     resources :carts
   end
-  post "api/login", to: "authentication#login"
-  delete "api/logout", to: "authentication#logout"
-  patch "api/refresh", to: "authentication#refresh_token"
-  post "api/signup", to: "users#create"
+  scope "/api" do
+    post "/login", to: "authentication#login"
+    delete "/logout", to: "authentication#logout"
+    patch "/refresh", to: "authentication#refresh_token"
+    post "/signup", to: "users#create"
+  end
 end

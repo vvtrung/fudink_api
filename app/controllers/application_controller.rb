@@ -6,6 +6,6 @@ class ApplicationController < ActionController::API
   attr_reader :current_user
 
   def authenticate!
-   @current_user = AuthorizeApiRequest.new(request.headers).perform!
+    @current_user = AuthorizeApiRequest.new(request.headers).perform!
   end
 end
