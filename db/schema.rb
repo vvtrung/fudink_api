@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20181011145459) do
 
   create_table "actions", force: :cascade do |t|
-    t.integer "action", default: 0
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20181011145459) do
   create_table "permissions", force: :cascade do |t|
     t.integer "role_id"
     t.integer "action_id"
-    t.string "type"
+    t.string "sub_class"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["action_id"], name: "index_permissions_on_action_id"

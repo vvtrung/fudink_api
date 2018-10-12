@@ -1,4 +1,6 @@
 class Api::StoresController < ApplicationController
+  before_action :authenticate!, only: :create
+  authorize_resource, only: :create
   before_action :load_store, only: :show
   before_action :load_foods_serializer_by_store, :load_drinks_serializer_by_store, only: :show
 
@@ -16,6 +18,11 @@ class Api::StoresController < ApplicationController
     json_response hash_source
   end
 
+  def create
+    store = @current_user.stores.create! store_params
+    json_response parse_json(store), Message.created_success(Store.name)
+  end
+
   private
 
   def load_store
@@ -23,7 +30,8 @@ class Api::StoresController < ApplicationController
   end
 
   def store_params
-    params.permit :name, :email, :phone, :address, :open_at, :close_at, :description, :user_id
+    params.permit :name, :email, :phone, :address, :open_at, :close_at, :description,
+      images_attributes: [:id, :link, :_destroy]
   end
 
   def load_foods_serializer_by_store

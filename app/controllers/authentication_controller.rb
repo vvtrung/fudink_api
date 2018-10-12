@@ -2,7 +2,7 @@ class AuthenticationController < ApplicationController
   before_action :authenticate!, only: :logout
 
   def login
-    auth_token = AuthenticateUser.new(auth_params).perform!
+    auth_token = AuthenticateUser.new(auth_params[:email], auth_params[:password]).perform!
     json_response parse_json(auth_token), Message.logged_in
   end
 
