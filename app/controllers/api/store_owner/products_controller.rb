@@ -1,6 +1,12 @@
 class Api::StoreOwner::ProductsController < Api::StoreOwner::StoreOwnersController
   before_acion :load_store, only: %i(create update destroy)
   before_acion :load_product, only: %i(update destroy)
+  before_acion :load_products, only: :index
+
+  def index
+    json_response_pagination parse_json(@products), params[:page] ||= 1, params[:per_page],
+      @products.total_pages, @products.total_entries
+  end
 
   def create
     product = Product.create! product_params
@@ -31,5 +37,10 @@ class Api::StoreOwner::ProductsController < Api::StoreOwner::StoreOwnersControll
 
   def load_product
     @store.products.find_by! id: params[:id]
+  end
+
+  def load_products
+    @products = @store.products.includes(:images, :sizes)
+      .paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
   end
 end
