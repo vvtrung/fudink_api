@@ -1,4 +1,4 @@
-class Api::StoreOwner::OrdersController < ApplicationController
+class Api::StoreOwner::OrdersController < Api::StoreOwner::StoreOwnersController
   before_action :load_store
   before_action :load_orders, only: :index
   before_action :load_order, only: %i(show update)
@@ -24,6 +24,6 @@ class Api::StoreOwner::OrdersController < ApplicationController
   end
 
   def load_order
-    @order = @store.orders.includes(:detail_order).find_by! id: params[:id]
+    @order = @store.orders.includes(:detail_orders).find_by! id: params[:id]
   end
 end

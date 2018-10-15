@@ -1,6 +1,6 @@
 class Api::StoresController < ApplicationController
   before_action :authenticate!, only: :create
-  authorize_resource, only: :create
+  authorize_resource only: :create
   before_action :load_store, only: :show
   before_action :load_foods_serializer_by_store, :load_drinks_serializer_by_store, only: :show
 

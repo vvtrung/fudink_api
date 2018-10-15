@@ -114,3 +114,21 @@ end
 Product.all.each do |product|
   Size.create!(product_id: product.id, size: "M", price: 10000)
 end
+
+Order.create!(
+  user_id: 2,
+  store_id: 1,
+  address: Faker::Address.street_address,
+  phone: "0973857454",
+  ship_cost: 10000,
+  total: 10000,
+  status: "pending"
+)
+
+DetailOrder.create!(
+  order_id: 1,
+  product_id: 1,
+  size_id: 1,
+  quantity: 1,
+  price: 10000
+)
