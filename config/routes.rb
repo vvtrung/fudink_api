@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :stores, only: %i(index show update)
       resources :stores do
         resources :products, only: %i(create update destroy)
+        resources :orders
       end
     end
   end
