@@ -3,10 +3,12 @@ Rails.application.routes.draw do
     resources :categories, only: %i(index show)
     resources :stores, only: %i(index show create)
     resources :products, only: :show
-    resources :carts, only: %i(index create update delete)
+    resources :carts, only: %i(index create update destroy)
     scope module: "store_owner", path: "dashboard" do
       resources :stores, only: %i(index show update)
-      resources :products, only: %i(create update delete)
+      resources :stores do
+        resources :products, only: %i(create update destroy)
+      end
     end
   end
   scope "/api" do
