@@ -15,5 +15,6 @@ class ProductSerializer < ActiveModel::Serializer
     avg_score = object.rates.sum do |rate|
       rate.rate
     end
+    avg_score / sum_rate
   end
 end

@@ -39,3 +39,11 @@ handle_error:
   invalid_token:
     message: "Invalid Token"
     error_code: 604
+  access_denied:
+    message: "Access Denied"
+    error_code: 403
+roles:
+  admin: 1
+  store_owner: 2
+  shipper: 3
+  customer: 4
