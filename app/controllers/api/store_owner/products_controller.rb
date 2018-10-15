@@ -1,7 +1,7 @@
 class Api::StoreOwner::ProductsController < Api::StoreOwner::StoreOwnersController
-  before_acion :load_store, only: %i(create update destroy)
-  before_acion :load_product, only: %i(update destroy)
-  before_acion :load_products, only: :index
+  before_action :load_store, only: %i(create update destroy)
+  before_action :load_product, only: %i(update destroy)
+  before_action :load_products, only: :index
 
   def index
     json_response_pagination parse_json(@products), params[:page] ||= 1, params[:per_page],

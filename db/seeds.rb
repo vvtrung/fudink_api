@@ -104,9 +104,9 @@ Store.all.each do |store|
   Category.all.each do |category|
     20.times.each do |i|
       Product.create!(name: Faker::Name.name, category_id: category.id, store_id: store.id,
-        product_type: "food")
+        product_type: "food", description: Faker::Lorem.sentence(10))
       Product.create!(name: Faker::Name.name, category_id: category.id, store_id: store.id,
-        product_type: "drink")
+        product_type: "drink", description: Faker::Lorem.sentence(10))
     end
   end
 end
