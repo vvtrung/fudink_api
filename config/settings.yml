@@ -2,6 +2,10 @@ validations:
   strings:
     min_length: 6
     max_length: 255
+    normal_length: 20
+  text:
+    min_length: 20
+    max_length: 1000
   email_regex: !ruby/regexp /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   phone_regex: !ruby/regexp /\A0\d{9,10}/
 
