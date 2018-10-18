@@ -5,4 +5,9 @@ class Order < ApplicationRecord
   has_many :shipper_orders, dependent: :destroy
 
   enum status: %i(pending accepted rejected)
+
+  validates :phone, presence: true, format: {with: Settings.validations.phone_regex}
+  validates :address, presence: true, length: {
+    minimum: Settings.validations.text.min_length,
+    maximum: Settings.validations.text.max_length}
 end
