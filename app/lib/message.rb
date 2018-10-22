@@ -46,4 +46,8 @@ class Message
   def self.destroyed_success resource
     "#{resource} destroyed successfully"
   end
+
+  def self.cart_empty
+    "Cart is empty"
+  end
 end

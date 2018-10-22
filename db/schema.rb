@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181011145459) do
+ActiveRecord::Schema.define(version: 20181021145702) do
 
   create_table "actions", force: :cascade do |t|
     t.string "name"
@@ -137,6 +137,8 @@ ActiveRecord::Schema.define(version: 20181011145459) do
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_shippers_on_user_id"
   end
 
@@ -161,6 +163,8 @@ ActiveRecord::Schema.define(version: 20181011145459) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_stores_on_user_id"
   end
 

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :stores, only: %i(index show create)
     resources :products, only: :show
     resources :carts, only: %i(index create update destroy)
+    resources :orders, only: %i(index create)
     scope module: "store_owner", path: "dashboard" do
       resources :stores, only: %i(index show update)
       resources :stores do
