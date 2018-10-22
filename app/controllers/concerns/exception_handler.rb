@@ -53,6 +53,6 @@ module ExceptionHandler
       message: Settings.handle_error.public_send(error_type).message,
       error_code: Settings.handle_error.public_send(error_type).error_code
     }
-    render json: response, status: :bad_request
+    render json: response, status: status
   end
 end

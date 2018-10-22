@@ -5,9 +5,11 @@ class User < ApplicationRecord
   belongs_to :role
   has_many :stores, dependent: :destroy
   has_one :shipper, dependent: :destroy
+  has_one :image, as: :media, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :carts, dependent: :destroy
+  has_many :products_cart,through: :carts, source: :product
 
   validates :email, presence: true, length: {minimum: Settings.validations.strings.min_length,
     maximum: Settings.validations.strings.max_length},

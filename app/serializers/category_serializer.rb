@@ -1,4 +1,7 @@
 class CategorySerializer < ActiveModel::Serializer
-  attributes :id, :name
-  # has_many :products
+  attributes :id, :name, :picture
+
+  def picture
+    object.image.present? ? object.image.media_link.url : ""
+  end
 end

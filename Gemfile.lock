@@ -255,6 +255,7 @@ GEM
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
     formatador (0.2.5)
+    geocoder (1.5.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     http-cookie (1.0.3)
@@ -378,6 +379,7 @@ DEPENDENCIES
   faker
   figaro
   fog (= 1.42)
+  geocoder
   jwt
   listen (>= 3.0.5, < 3.2)
   mini_magick (= 4.7.0)

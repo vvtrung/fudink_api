@@ -4,6 +4,9 @@ class Store < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :images, as: :media, dependent: :destroy
 
+  geocoded_by :address
+  after_validation :geocode, if: :address_changed?
+
   enum status: %i(pedding accepted rejected block)
 
   accepts_nested_attributes_for :images, allow_destroy: true

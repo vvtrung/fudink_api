@@ -1,9 +1,8 @@
 class ProductSerializer < ActiveModel::Serializer
-  attributes :id, :name, :product_type, :description, :sum_rate, :avg_rate_score
+  attributes :id, :name, :product_type, :description, :sum_rate, :avg_rate_score, :pictures
   belongs_to :category
   belongs_to :store
   has_many :sizes
-  has_many :images, as: :media
   has_many :rates
 
   def sum_rate
@@ -16,5 +15,12 @@ class ProductSerializer < ActiveModel::Serializer
       rate.rate
     end
     avg_score / sum_rate
+  end
+
+  def pictures
+    pictures = []
+    pictures += object.images.each do |image|
+      image.media_link.present? ? image.media_link.url : ""
+    end
   end
 end

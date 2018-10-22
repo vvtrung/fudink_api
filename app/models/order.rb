@@ -10,4 +10,10 @@ class Order < ApplicationRecord
   validates :address, presence: true, length: {
     minimum: Settings.validations.text.min_length,
     maximum: Settings.validations.text.max_length}
+  validate :address_not_found
+
+  def address_not_found
+    return unless ship_cost.nan?
+    errors.add :address, :invalid
+  end
 end
