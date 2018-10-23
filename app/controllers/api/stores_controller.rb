@@ -5,11 +5,16 @@ class Api::StoresController < ApplicationController
   before_action :load_foods_serializer_by_store, :load_drinks_serializer_by_store, only: :show
 
   def index
-    stores_accepted = Store.accepted.paginate page: params[:page] ||= 1,
-      per_page: params[:per_page] ||= 10
-    stores_serializer = parse_json stores_accepted
-    json_response_pagination stores_serializer, params[:page] ||= 1, params[:per_page],
-      stores_accepted.total_pages, stores_accepted.total_entries
+    stores_accepted = Store.accepted
+    if params[:get_all].blank?
+      stores_accepted = stores_accepted.paginate page: params[:page] ||= 1,
+        per_page: params[:per_page] ||= 10
+      stores_serializer = parse_json stores_accepted
+      json_response_pagination stores_serializer, params[:page] ||= 1, params[:per_page],
+        stores_accepted.total_pages, stores_accepted.total_entries
+    else
+      json_response(parse_json stores_accepted)
+    end
   end
 
   def show
