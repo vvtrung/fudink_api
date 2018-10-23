@@ -18,8 +18,6 @@ class User < ApplicationRecord
     maximum: Settings.validations.strings.max_length}
   validates :name, presence: true, length: {minimum: Settings.validations.strings.min_length,
     maximum: Settings.validations.strings.max_length}
-  validates :phone, presence: true, format: {with: Settings.validations.phone_regex},
-    allow_nil: true
-  validates :address, presence: true, length: {minimum: 10, maximum: 1000},
-    allow_nil: true
+  validates :phone, format: {with: Settings.validations.phone_regex}, if: :phone?
+  validates :address, length: {minimum: 10, maximum: 1000}, if: :address?
 end
