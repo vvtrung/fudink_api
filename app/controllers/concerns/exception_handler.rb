@@ -24,29 +24,29 @@ module ExceptionHandler
 
   protected
 
-  def render_authorization_error error
+  def render_authorization_error error, status = :bad_request
     error_type = error.class.name.scan(/ExceptionHandler::(.*)/).flatten.first.underscore.to_sym
     response = {
       success: false,
       message: Settings.handle_error.public_send(error_type).message,
       error_code: Settings.handle_error.public_send(error_type).error_code
     }
-    render json: response#, status: :bad_request
+    render json: response, status: status
   end
 
-  def render_unprocessable_entity_response error, status: :unprocessable_entity
+  def render_unprocessable_entity_response error, status = :unprocessable_entity
     render json: Errors::ActiveRecordValidation.new(error.record).to_hash, status: status
   end
 
-  def render_404 error, status: :not_found
+  def render_404 error, status = :not_found
     render json: Errors::ActiveRecordNotFound.new(error).to_hash, status: status
   end
 
-  def render_runtime_error_response error, status: :bad_request
+  def render_runtime_error_response error, status = :bad_request
     render json: error.to_hash, status: status
   end
 
-  def render_access_denied_error error, status: :access_denied
+  def render_access_denied_error error, status = :forbidden
     error_type = error.class.name.scan(/ExceptionHandler::(.*)/).flatten.first.underscore.to_sym
     response = {
       success: false,

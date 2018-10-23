@@ -6,6 +6,10 @@ module Errors
       @code, @message = code, message
     end
 
+    def initialize message: nil
+      @message = message
+    end
+
     def serialize
       [
         {code: code, message: message}

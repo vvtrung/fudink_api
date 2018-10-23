@@ -35,6 +35,10 @@ class Message
     "Logged in success"
   end
 
+  def self.logged_out
+    "Logged out success"
+  end
+
   def self.created_success resource
     "#{resource} created successfully"
   end

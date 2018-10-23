@@ -9,6 +9,7 @@ class AuthenticationController < ApplicationController
   def logout
     token = AuthToken.find_by token: request.headers['Authorization']
     token ? token.destroy : raise(ExceptionHandler::AuthenticationError)
+    render json: {success: true, message: Message.logged_out}, status: :ok
   end
 
   def refresh_token

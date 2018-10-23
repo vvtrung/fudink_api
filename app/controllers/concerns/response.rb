@@ -18,7 +18,7 @@ module Response
         total_pages: total_pages,
         total_objects: total_entries
       }
-    }
+    }, status: :ok
   end
 
   def json_pagination object, page, per_page, total_pages, total_entries
