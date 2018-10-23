@@ -7,7 +7,7 @@ module Errors
         @type, @detail = type, detail
         scope = i18n_scope
         error = I18n.t detail, scope: scope, default: translation_missing(detail ,scope)
-        @code = error[:code]
+        # @code = error[:code]
         @message = error[:message]
       end
 

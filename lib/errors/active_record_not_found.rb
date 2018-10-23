@@ -15,7 +15,7 @@ module Errors
         {
           resource: resource,
           field: field,
-          code: code,
+          # code: code,
           message: message
         }
       ]
@@ -35,11 +35,11 @@ module Errors
         default: model
     end
 
-    def code
-      I18n.t detail,
-        locale: :api,
-        scope: [:api, :errors, :code],
-        default: detail
-    end
+    # def code
+    #   I18n.t detail,
+    #     locale: :api,
+    #     scope: [:api, :errors, :code],
+    #     default: detail
+    # end
   end
 end

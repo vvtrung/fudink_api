@@ -1,14 +1,20 @@
 module Errors
   class ApplicationError < StandardError
-    attr_reader :code, :message
+    # attr_reader :code, :message
+    attr_reader :message
 
-    def initialize code: nil, message: nil
-      @code, @message = code, message
+    # def initialize code: nil, message: nil
+    #   @code, @message = code, message
+    # end
+
+    def initialize message: nil
+      @message = message
     end
 
     def serialize
       [
-        {code: code, message: message}
+        # {code: code, message: message}
+        {message: message}
       ]
     end
 
