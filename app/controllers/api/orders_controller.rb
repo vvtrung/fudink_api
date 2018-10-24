@@ -2,16 +2,16 @@ class Api::OrdersController < ApplicationController
   before_action :authenticate!
   before_action :current_ability
   before_action :load_carts, only: :create
+  before_action :load_orders, only: :index
   authorize_resource
 
   def index
-    orders = @current_user.orders.includes(:customer, :detail_orders)
+    orders_serializer = parse_json @orders
     if params[:get_all].blank?
-      orders = orders.paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
-      json_response_pagination parse_json(orders), params[:page] ||= 1, params[:per_page],
-        orders.total_pages, orders.total_entries
+      json_response_pagination orders_serializer, params[:page] ||= 1, params[:per_page],
+        @orders.total_pages, @orders.total_entries
     else
-      json_response(parse_json orders)
+      json_response orders_serializer
     end
   end
 
@@ -39,6 +39,15 @@ class Api::OrdersController < ApplicationController
 
   def load_carts
     @products_cart = @current_user.products_cart.group_by(&:store)
+  end
+
+  def load_orders
+    @orders = if params[:get_all].blank?
+      @current_user.orders.includes(:customer, :detail_orders)
+    else
+      @current_user.orders.includes(:customer, :detail_orders)
+        .paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
+    end
   end
 
   def get_total

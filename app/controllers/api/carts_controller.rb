@@ -1,16 +1,16 @@
 class Api::CartsController < ApplicationController
   before_action :authenticate!
   before_action :load_item, only: %i(update destroy)
+  before_action :load_carts, only: :index
   authorize_resource
 
   def index
-    carts = @current_user.carts.includes(:product, :size, :customer)
+    carts_serializer = parse_json @carts
     if params[:get_all].blank?
-      carts = carts.paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
-      json_response_pagination parse_json(carts), params[:page] ||= 1, params[:per_page],
-        carts.total_pages, carts.total_entries
+      json_response_pagination carts_serializer, params[:page] ||= 1, params[:per_page],
+        @carts.total_pages, @carts.total_entries
     else
-      json_response(parse_json carts)
+      json_response carts_serializer
     end
   end
 
@@ -37,6 +37,15 @@ class Api::CartsController < ApplicationController
 
   def load_item
     @item = @current_user.carts.includes(:product, :size).find_by! id: params[:id]
+  end
+
+  def load_carts
+    @carts = if params[:get_all].blank?
+      @current_user.carts.includes(:product, :size, :customer)
+        .paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
+    else
+      @current_user.carts.includes(:product, :size, :customer)
+    end
   end
 
   def cart_params
