@@ -8,6 +8,7 @@ validations:
     max_length: 1000
   email_regex: !ruby/regexp /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   phone_regex: !ruby/regexp /\A0\d{9,10}/
+  identity_number_regex: !ruby/regexp /\A\d{9}/
 
 auth_tokens:
   token:

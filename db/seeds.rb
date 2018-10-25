@@ -60,10 +60,10 @@ store_owner_delete.each do |sub_class|
   Permission.create!(role_id: 2, action_id: 4, sub_class: sub_class)
 end
 
-shipper_read = ["User", "Store", "Product", "Image", "Category", "Rate", "Size", "Order", "Cart", "ShipperOrder", "DetailOrder"]
-shipper_create = ["Cart", "Order", "Rate"]
+shipper_read = ["User", "Store", "Product", "Image", "Category", "Rate", "Size", "Order", "Cart", "ShipperOrder", "DetailOrder", "Device"]
+shipper_create = ["Cart", "Order", "Rate", "Device"]
 shipper_update = ["Cart", "User", "Shipper", "ShipperOrder"]
-shipper_delete = ["Cart"]
+shipper_delete = ["Cart", "Device"]
 
 shipper_read.each do |sub_class|
   Permission.create!(role_id: 3, action_id: 1, sub_class: sub_class)
@@ -86,6 +86,12 @@ User.create!(name: Faker::Name.name, email: "vts@gmail.com", password: "12312312
 
 User.create!(name: Faker::Name.name, email: Faker::Internet.free_email, password: "123123123",
   phone: "0973857454", address: Faker::Address.street_address, role_id: 4)
+
+User.create!(name: Faker::Name.name, email: "vinhbb@gmail.com", password: "123123123",
+  phone: "0973857454", address: Faker::Address.street_address, role_id: 3)
+
+User.create!(name: Faker::Name.name, email: "kiki@gmail.com", password: "123123123",
+  phone: "0973857454", address: Faker::Address.street_address, role_id: 1)
 
 5.times.each do |i|
   Store.create!(

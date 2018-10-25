@@ -7,7 +7,7 @@ class Store < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
 
-  enum status: %i(pedding accepted rejected block)
+  enum status: %i(pending accepted rejected block)
 
   accepts_nested_attributes_for :images, allow_destroy: true
 
