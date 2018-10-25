@@ -54,4 +54,8 @@ class Message
   def self.cart_empty
     "Cart is empty"
   end
+
+  def self.receive
+    "Order has been receive"
+  end
 end

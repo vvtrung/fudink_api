@@ -1,6 +1,7 @@
 class Api::Shippers::ShipperOrdersController < Api::Shippers::ShippersBaseController
   before_action :load_shipper_order, only: %i(show update)
   before_action :load_shipper_orders, only: :index
+  before_action :check_receiver, only: :create
 
   def index
     shipper_order_serializer = parse_json @shipper_orders
@@ -21,14 +22,23 @@ class Api::Shippers::ShipperOrdersController < Api::Shippers::ShippersBaseContro
     json_response hash_source
   end
 
+  def create
+    shipper_order = ShipperOrder.create! shipper_order_params
+    json_response parse_json(shipper_order.order)
+  end
+
   def update
-    @shipper_order.update! shipper_order_params
+    @shipper_order.update! status_params
     json_response parse_json(@shipper_order), Message.updated_success(Order.name)
   end
 
   private
 
   def shipper_order_params
+    params.permit :shipper_id, :order_id
+  end
+
+  def status_params
     params.permit :status
   end
 
@@ -43,5 +53,11 @@ class Api::Shippers::ShipperOrdersController < Api::Shippers::ShippersBaseContro
     else
       @current_user.shipper_orders.order_by_status
     end
+  end
+
+  def check_receiver
+    shipper_order = ShipperOrder.find_by order_id: params[:order_id]
+    return if shipper_order.blank?
+    render json: {success: false, message: Message.receive}
   end
 end
