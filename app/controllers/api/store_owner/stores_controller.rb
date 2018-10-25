@@ -8,7 +8,7 @@ class Api::StoreOwner::StoresController < Api::StoreOwner::StoreOwnersController
   end
 
   def show
-    parse_json parse_json(@store)
+    json_response parse_json(@store)
   end
 
   # def create
@@ -18,7 +18,7 @@ class Api::StoreOwner::StoresController < Api::StoreOwner::StoreOwnersController
 
   def update
     store = @store.update! store_params
-    parse_json parse_json(store), Message.updated_success(Store.name)
+    json_response parse_json(store), Message.updated_success(Store.name)
   end
 
   private

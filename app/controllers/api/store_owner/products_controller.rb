@@ -1,11 +1,15 @@
 class Api::StoreOwner::ProductsController < Api::StoreOwner::StoreOwnersController
-  before_action :load_store, only: %i(create update destroy)
-  before_action :load_product, only: %i(update destroy)
+  before_action :load_store
+  before_action :load_product, only: %i(show update destroy)
   before_action :load_products, only: :index
 
   def index
     json_response_pagination parse_json(@products), params[:page] ||= 1, params[:per_page],
       @products.total_pages, @products.total_entries
+  end
+
+  def show
+    json_response parse_json(@product)
   end
 
   def create
@@ -36,7 +40,7 @@ class Api::StoreOwner::ProductsController < Api::StoreOwner::StoreOwnersControll
   end
 
   def load_product
-    @store.products.find_by! id: params[:id]
+    @product = @store.products.find_by! id: params[:id]
   end
 
   def load_products
