@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :products, only: :show
     resources :carts
     resources :orders
+    resources :rates, only: :create
     scope module: "store_owner", path: "dashboard" do
       resources :stores
       resources :stores do
