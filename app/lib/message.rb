@@ -58,4 +58,8 @@ class Message
   def self.receive
     "Order has been receive"
   end
+
+  def self.missing_params
+    "Missing params"
+  end
 end

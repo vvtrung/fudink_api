@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :carts
     resources :orders
     resources :rates, only: :create
+    resources :permissions, only: :index
     scope module: "store_owner", path: "dashboard" do
       resources :stores
       resources :stores do
