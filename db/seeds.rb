@@ -9,7 +9,7 @@
 Action.create!(name: "read")
 Action.create!(name: "create")
 Action.create!(name: "update")
-Action.create!(name: "delete")
+Action.create!(name: "destroy")
 
 Role.create!(name: "Admin")
 Role.create!(name: "Store Owner")
@@ -45,7 +45,7 @@ end
 store_owner_read = ["User", "Store", "Product", "Image", "Category", "Rate", "Size", "Order", "Cart", "DetailOrder"]
 store_owner_create = ["Store", "Rate", "Order", "Cart", "Product", "Image", "Size"]
 store_owner_update = ["Store", "Product", "Size", "Image", "Cart", "Order", "User"]
-store_owner_delete = ["Store", "Product", "Size", "Image", "Cart"]
+store_owner_delete = ["Product", "Size", "Image", "Cart"]
 
 store_owner_read.each do |sub_class|
   Permission.create!(role_id: 2, action_id: 1, sub_class: sub_class)
@@ -92,6 +92,8 @@ User.create!(name: Faker::Name.name, email: "vinhbb@gmail.com", password: "12312
 
 User.create!(name: Faker::Name.name, email: "kiki@gmail.com", password: "123123123",
   phone: "0973857454", address: Faker::Address.full_address, role_id: 1)
+
+Shipper.create!(user_id: 3, identity_number: "187536333")
 
 5.times.each do |i|
   Store.create!(

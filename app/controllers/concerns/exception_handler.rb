@@ -19,7 +19,7 @@ module ExceptionHandler
       Errors::Runtime::ServiceFailed,
       with: :render_runtime_error_response
     rescue_from ExceptionHandler::AccessDenied, with: :render_access_denied_error
-    rescue_from CanCan::AccessDenied, with: :render_access_denied_error
+    rescue_from CanCan::AccessDenied, with: :render_access_denied_cancan
   end
 
   protected
@@ -54,5 +54,14 @@ module ExceptionHandler
       error_code: Settings.handle_error.public_send(error_type).error_code
     }
     render json: response, status: status
+  end
+
+  def render_access_denied_cancan
+    response = {
+      success: false,
+      message: Settings.handle_error.public_send("access_denied").message,
+      error_code: Settings.handle_error.public_send("access_denied").error_code
+    }
+    render json: response, status: :forbidden
   end
 end
