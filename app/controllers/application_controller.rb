@@ -10,6 +10,6 @@ class ApplicationController < ActionController::API
   end
 
   def current_ability
-    Ability.new @current_user
+    @current_ability = Ability.new @current_user
   end
 end
