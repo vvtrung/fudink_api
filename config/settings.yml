@@ -53,3 +53,5 @@ roles:
   shipper: 3
   customer: 4
 ship_cost: 10000
+max_order: 3
+radius: 5

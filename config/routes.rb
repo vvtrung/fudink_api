@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
   namespace :api do
-    resources :categories, only: %i(index show)
-    resources :stores, only: %i(index show create)
+    resources :categories
+    resources :stores
     resources :products, only: :show
-    resources :carts, only: %i(index create update destroy)
-    resources :orders, only: %i(index create)
+    resources :carts
+    resources :orders
     scope module: "store_owner", path: "dashboard" do
-      resources :stores, only: %i(index show update)
+      resources :stores
       resources :stores do
         resources :products
         resources :orders
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     end
     scope module: "shippers", path: "dashboard" do
       resources :shippers, only: :update
-      resources :shipper_orders, only: %i(index show update)
+      resources :shipper_orders
       resources :devices, only: %i(create destroy)
     end
   end

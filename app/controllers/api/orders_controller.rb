@@ -18,8 +18,10 @@ class Api::OrdersController < ApplicationController
   def create
     Order.transaction do
       @products_cart.each do |store, products|
+        ship_cost = cal_ship_cost store
+        total = get_total + ship_cost
         order = @current_user.orders.create!(orders_params.merge! store_id: store.id,
-          total: get_total, ship_cost: cal_ship_cost(store))
+          total: total, ship_cost: ship_cost)
         products.each do |product|
           cart_item = Cart.find_by! product_id: product.id
           order.detail_orders.create! product_id: product.id, size_id: cart_item.size_id,

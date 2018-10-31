@@ -20,6 +20,7 @@ gem "carrierwave", "1.1.0"
 gem "mini_magick", "4.7.0"
 gem "cancancan", "~> 2.0"
 gem "geocoder"
+gem "fcm"
 
 group :development, :test do
   gem "sqlite3", "1.3.13"

@@ -16,4 +16,10 @@ class Order < ApplicationRecord
     return unless ship_cost.nan?
     errors.add :address, :invalid
   end
+
+  def cant_back_status
+    order = Order.find_by! id: id
+    return if order.pending?
+    errors.add :status, "Not allowed to update"
+  end
 end
