@@ -58,6 +58,6 @@ class Api::CartsController < ApplicationController
   end
 
   def update_quantity
-    @item.update! quantity: params[:quantity]
+    @item.update! quantity: params[:quantity].to_i + @item.quantity
   end
 end

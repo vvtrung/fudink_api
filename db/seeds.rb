@@ -95,18 +95,29 @@ User.create!(name: Faker::Name.name, email: "kiki@gmail.com", password: "1231231
 
 Shipper.create!(user_id: 3, identity_number: "187536333")
 
-5.times.each do |i|
-  Store.create!(
-    name: Faker::Name.name,
-    email: Faker::Internet.free_email,
-    user_id: 1,
-    phone: "0973857454",
-    address: Faker::Address.full_address,
-    open_at: "08:00",
-    close_at: "21:00",
-    status: "accepted"
-  )
-end
+Device.create!(user_id: 3, device_token: "f4qwpBzKoyw:APA91bGo5jbH29z1cCvQvlK7a9ejiSvW-f5V9oQMfMn1A7DbAUbGBWfsivb5z1d-xhvHmXzL2NkkBhYgCC8TvRgU64tTnLUuyy7w3sikF2vWR7wxbTjdKgxzQnwHlUIGfujizQnv-zCy")
+
+Store.create!(
+  name: Faker::Name.name,
+  email: Faker::Internet.free_email,
+  user_id: 1,
+  phone: "0973857454",
+  address: "27 Âu Cơ, Liên Chiểu, Đà Nẵng",
+  open_at: "08:00",
+  close_at: "21:00",
+  status: "accepted"
+)
+
+Store.create!(
+  name: Faker::Name.name,
+  email: Faker::Internet.free_email,
+  user_id: 1,
+  phone: "0973857454",
+  address: "7 Ninh Tốn, Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng",
+  open_at: "08:00",
+  close_at: "21:00",
+  status: "accepted"
+)
 
 Store.all.each do |store|
   Category.all.each do |category|
@@ -126,17 +137,30 @@ end
 Order.create!(
   user_id: 2,
   store_id: 1,
-  address: Faker::Address.full_address,
+  address: "54 Nguyễn Lương Bằng, Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng",
   phone: "0973857454",
   ship_cost: 10000,
   total: 10000,
   status: "pending"
 )
 
-DetailOrder.create!(
-  order_id: 1,
-  product_id: 1,
-  size_id: 1,
-  quantity: 1,
-  price: 10000
+Order.create!(
+  user_id: 2,
+  store_id: 2,
+  address: "54 Nguyễn Lương Bằng, Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng",
+  phone: "0973857454",
+  ship_cost: 10000,
+  total: 10000,
+  status: "pending"
 )
+
+Order.all.each do |order|
+  DetailOrder.create!(
+    order_id: order.id,
+    product_id: 1,
+    size_id: 1,
+    quantity: 1,
+    price: 10000
+  )
+  ShipperOrder.create!(shipper_id: 1, order_id: order.id)
+end

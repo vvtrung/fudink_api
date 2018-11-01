@@ -2,7 +2,7 @@ class ShipperOrder < ApplicationRecord
   belongs_to :shipper
   belongs_to :order
 
-  validate :cant_back_status
+  validate :cant_back_status, if: :id?
 
   enum status: %i(pending shipping done)
 

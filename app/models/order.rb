@@ -11,6 +11,7 @@ class Order < ApplicationRecord
     minimum: Settings.validations.text.min_length,
     maximum: Settings.validations.text.max_length}
   validate :address_not_found
+  validate :cant_back_status, if: :id?
 
   def address_not_found
     return unless ship_cost.nan?
