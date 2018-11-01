@@ -5,6 +5,7 @@ class User < ApplicationRecord
   belongs_to :role
   has_many :stores, dependent: :destroy
   has_one :shipper, dependent: :destroy
+  has_many :shipper_orders, through: :shipper
   has_one :image, as: :media, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :orders, dependent: :destroy
@@ -18,7 +19,7 @@ class User < ApplicationRecord
     maximum: Settings.validations.strings.max_length},
     format: {with: Settings.validations.email_regex}, uniqueness: {case_sensitive: false}
   validates :password, presence: true, length: {minimum: Settings.validations.strings.min_length,
-    maximum: Settings.validations.strings.max_length}
+    maximum: Settings.validations.strings.max_length}, allow_nil: true
   validates :name, presence: true, length: {minimum: Settings.validations.strings.min_length,
     maximum: Settings.validations.strings.max_length}
   validates :phone, format: {with: Settings.validations.phone_regex}, if: :phone?

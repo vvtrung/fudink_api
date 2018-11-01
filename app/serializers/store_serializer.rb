@@ -8,4 +8,12 @@ class StoreSerializer < ActiveModel::Serializer
       image.media_link.present? ? image.media_link.url : ""
     end
   end
+
+  def open_at
+    I18n.l object.open_at, format: :short
+  end
+
+  def close_at
+    I18n.l object.open_at, format: :short
+  end
 end

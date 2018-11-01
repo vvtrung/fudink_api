@@ -14,7 +14,7 @@ class Api::Shippers::ShipperOrdersController < Api::Shippers::ShippersBaseContro
   end
 
   def show
-    order_seralizer = parse_json @shipper_orders.order
+    order_seralizer = parse_json @shipper_order.order
     hash_source = {
       shipper_order: @shipper_order,
       order: order_seralizer[:order]

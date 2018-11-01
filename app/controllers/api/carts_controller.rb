@@ -16,7 +16,7 @@ class Api::CartsController < ApplicationController
 
   def create
     if is_exists?
-      update_quantity
+      @item.update! quantity: params[:quantity].to_i + @item.quantity
     else
       @item = @current_user.carts.create! cart_params
     end
@@ -24,7 +24,7 @@ class Api::CartsController < ApplicationController
   end
 
   def update
-    update_quantity
+    @item.update! quantity: params[:quantity]
     json_response parse_json(@item), I18n.t("carts.updated_success")
   end
 
@@ -55,9 +55,5 @@ class Api::CartsController < ApplicationController
   def is_exists?
     @item = @current_user.carts.find_by product_id: params[:product_id], size_id: params[:size_id]
     @item.present?
-  end
-
-  def update_quantity
-    @item.update! quantity: params[:quantity]
   end
 end

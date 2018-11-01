@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :categories
     resources :stores
-    resources :products, only: :show
+    resources :products, only: %i(index show)
     resources :carts
     resources :orders
     resources :rates, only: :create

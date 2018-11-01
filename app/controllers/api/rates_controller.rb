@@ -3,7 +3,7 @@ class Api::RatesController < ApplicationController
   authorize_resource only: :create
 
   def create
-    rate = Rate.create! rate_params
+    rate = @current_user.rates.create! rate_params
     json_response parse_json(rate), Message.created_success(Rate.name)
   end
 

@@ -1,12 +1,16 @@
 class Api::OrdersController < ApplicationController
   before_action :authenticate!
   before_action :current_ability
+  before_action :check_empty_Cart, only: :create
   before_action :load_carts, only: :create
   before_action :load_orders, only: :index
   authorize_resource
 
   def index
     orders_serializer = parse_json @orders
+    orders_serializer[:orders].each do |hash_order|
+      hash_order[:store] = parse_json @orders.find_by(id: hash_order[:id]).store
+    end
     if params[:get_all].blank?
       json_response_pagination orders_serializer, params[:page] ||= 1, params[:per_page],
         @orders.total_pages, @orders.total_entries
@@ -19,7 +23,7 @@ class Api::OrdersController < ApplicationController
     Order.transaction do
       @products_cart.each do |store, products|
         ship_cost = cal_ship_cost store
-        total = get_total + ship_cost
+        total = ship_cost.present? ? (get_total + ship_cost) : get_total
         order = @current_user.orders.create!(orders_params.merge! store_id: store.id,
           total: total, ship_cost: ship_cost)
         products.each do |product|
@@ -28,9 +32,9 @@ class Api::OrdersController < ApplicationController
             quantity: cart_item.quantity, price: cart_item.size.price
         end
       end
-      @current_user.carts.destroy_all!
+      @current_user.carts.destroy_all
     end
-    json_response parse_json(order), Message.created_success(Order.name)
+    render json: {success: true, message: Message.created_success(Order.name)}
   end
 
   private
@@ -44,7 +48,7 @@ class Api::OrdersController < ApplicationController
   end
 
   def load_orders
-    @orders = if params[:get_all].blank?
+    @orders = if params[:get_all].present?
       @current_user.orders.includes(:customer, :detail_orders)
     else
       @current_user.orders.includes(:customer, :detail_orders)

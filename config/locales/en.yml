@@ -39,3 +39,6 @@ en:
     created_success: "Added item to cart success"
     updated_success: "Updated quantity success"
     destroyed_success: "Removed item from cart success"
+  time:
+    formats:
+      short: "%H:%m"

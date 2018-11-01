@@ -40,12 +40,13 @@ class Api::StoreOwner::OrdersController < Api::StoreOwner::StoreOwnersController
   def load_shippers_ready
     @shippers = []
     Shipper.online.each do |shipper|
-      orders = shipper.shipper_orders.pending + shipper.shipper_orders.shipping
-      @shippers << shipper if orders.size <= Settings.max_order
+      orders_shipping = shipper.shipper_orders.shipping
+      @shippers << shipper if orders_shipping.size < Settings.max_order
     end
   end
 
   def send_notification
+    load_shippers_ready
     @shippers.each do |shipper|
       distance = @store.distance_to([shipper.latitude, shipper.longitude], :km)
       next if distance <= Settings.radius

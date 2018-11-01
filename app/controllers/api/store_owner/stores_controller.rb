@@ -17,8 +17,8 @@ class Api::StoreOwner::StoresController < Api::StoreOwner::StoreOwnersController
   # end
 
   def update
-    store = @store.update! store_params
-    json_response parse_json(store), Message.updated_success(Store.name)
+    @store.update! store_params
+    json_response parse_json(@store), Message.updated_success(Store.name)
   end
 
   private

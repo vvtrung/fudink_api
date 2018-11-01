@@ -9,8 +9,9 @@ class AuthToken < ApplicationRecord
 
   class << self
     def generate! user, remember = false
-      token = find_or_initialize_by user: user
-      token.renew! remember
+      auth_token = find_or_initialize_by user: user
+      auth_token.renew! remember if auth_token.token.blank? || auth_token&.expired?
+      auth_token.update_expired_at! remember
     end
 
     def from_token! token
@@ -22,6 +23,11 @@ class AuthToken < ApplicationRecord
     update_attributes! token: unique_random(:token),
       refresh_token: unique_random(:refresh_token),
       expired_at: Settings.auth_tokens.public_send(remember ? :expires_in : :short_expires_in).second.from_now
+    self
+  end
+
+  def update_expired_at! remember = false
+    update_attributes! expired_at: Settings.auth_tokens.public_send(remember ? :expires_in : :short_expires_in).second.from_now
     self
   end
 
