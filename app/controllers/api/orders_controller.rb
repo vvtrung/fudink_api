@@ -26,6 +26,7 @@ class Api::OrdersController < ApplicationController
         total = ship_cost.present? ? (get_total + ship_cost) : get_total
         order = @current_user.orders.create!(orders_params.merge! store_id: store.id,
           total: total, ship_cost: ship_cost)
+        # create_notification store.store_owner.id, @current_user.name
         products.each do |product|
           cart_item = Cart.find_by! product_id: product.id
           order.detail_orders.create! product_id: product.id, size_id: cart_item.size_id,
@@ -70,5 +71,9 @@ class Api::OrdersController < ApplicationController
   def check_empty_Cart
     return if @current_user.carts.present?
     render json: {success: false, message: Message.cart_empty}
+  end
+
+  def create_notification user_id, customer
+    Notification.create! user_id: user_id, content: "You have a new order from #{customer}"
   end
 end

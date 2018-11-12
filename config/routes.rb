@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :shippers, only: :update
       resources :shipper_orders
       resources :devices, only: %i(create destroy)
+      get "/shipper_orders/:order_id/exists", to: "shipper_orders#exists"
     end
   end
 
@@ -28,4 +29,5 @@ Rails.application.routes.draw do
     post "/signup", to: "users#create"
     patch "/profile", to: "users#update"
   end
+  mount ActionCable.server => "/cable"
 end

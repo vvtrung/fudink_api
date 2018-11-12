@@ -61,7 +61,7 @@ store_owner_delete.each do |sub_class|
 end
 
 shipper_read = ["User", "Store", "Product", "Image", "Category", "Rate", "Size", "Order", "Cart", "ShipperOrder", "DetailOrder", "Device"]
-shipper_create = ["Cart", "Order", "Rate", "Device"]
+shipper_create = ["Cart", "Order", "Rate", "Device", "ShipperOrder"]
 shipper_update = ["Cart", "User", "Shipper", "ShipperOrder"]
 shipper_delete = ["Cart", "Device"]
 

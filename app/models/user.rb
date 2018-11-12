@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :carts, dependent: :destroy
   has_many :products_cart,through: :carts, source: :product
   has_many :devices, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   accepts_nested_attributes_for :shipper, update_only: true, allow_destroy: true
 

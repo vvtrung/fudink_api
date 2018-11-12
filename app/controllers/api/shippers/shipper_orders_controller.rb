@@ -1,4 +1,5 @@
 class Api::Shippers::ShipperOrdersController < Api::Shippers::ShippersBaseController
+  skip_authorize_resource only: :exists
   before_action :load_shipper_order, only: %i(show update)
   before_action :load_shipper_orders, only: :index
   before_action :check_receiver, only: :create
@@ -22,24 +23,25 @@ class Api::Shippers::ShipperOrdersController < Api::Shippers::ShippersBaseContro
     json_response hash_source
   end
 
+  def exists
+    shipper_order = ShipperOrder.find_by order_id: params[:order_id]
+    render json: {success: true, exists: shipper_order.present?}
+  end
+
   def create
     shipper_order = ShipperOrder.create! shipper_order_params
-    json_response parse_json(shipper_order.order)
+    json_response parse_json(shipper_order)
   end
 
   def update
-    @shipper_order.update! status_params
+    @shipper_order.update! status: :done
     json_response parse_json(@shipper_order), Message.updated_success(Order.name)
   end
 
   private
 
   def shipper_order_params
-    params.permit :shipper_id, :order_id
-  end
-
-  def status_params
-    params.permit :status
+    params.permit(:order_id).merge! shipper_id: @current_user&.shipper&.id
   end
 
   def load_shipper_order
