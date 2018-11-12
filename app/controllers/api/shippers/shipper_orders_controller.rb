@@ -28,7 +28,7 @@ class Api::Shippers::ShipperOrdersController < Api::Shippers::ShippersBaseContro
   end
 
   def update
-    @shipper_order.update! status_params
+    @shipper_order.update! status: :done
     json_response parse_json(@shipper_order), Message.updated_success(Order.name)
   end
 
@@ -36,10 +36,6 @@ class Api::Shippers::ShipperOrdersController < Api::Shippers::ShippersBaseContro
 
   def shipper_order_params
     params.permit :shipper_id, :order_id
-  end
-
-  def status_params
-    params.permit :status
   end
 
   def load_shipper_order
