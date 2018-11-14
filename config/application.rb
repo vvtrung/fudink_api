@@ -30,5 +30,7 @@ module TestApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.eager_load_paths << "#{Rails.root}/lib"
+    config.time_zone = "Asia/Jakarta"
+    config.active_record.default_timezone = :local
   end
 end

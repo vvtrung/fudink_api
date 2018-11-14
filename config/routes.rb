@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :orders
     resources :rates, only: :create
     resources :permissions, only: :index
+    resources :notifications, only: %i(index update)
     scope module: "store_owner", path: "dashboard" do
       resources :stores
       resources :stores do
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
       end
     end
     scope module: "shippers", path: "dashboard" do
-      resources :shippers, only: :update
+      resources :shippers, only: %i(show update)
       resources :shipper_orders
       resources :devices, only: %i(create destroy)
       get "/shipper_orders/:order_id/exists", to: "shipper_orders#exists"
@@ -28,6 +29,9 @@ Rails.application.routes.draw do
     patch "/refresh", to: "authentication#refresh_token"
     post "/signup", to: "users#create"
     patch "/profile", to: "users#update"
+    patch "users/password", to: "users#password"
   end
-  mount ActionCable.server => "/cable"
+  resources :test, only: :index
+  get "/shippers", to: "test#shippers"
+  # mount ActionCable.server => "/cable"
 end

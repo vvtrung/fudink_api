@@ -4,8 +4,12 @@ class Api::StoreOwner::ProductsController < Api::StoreOwner::StoreOwnersControll
   before_action :load_products, only: :index
 
   def index
-    json_response_pagination parse_json(@products), params[:page] ||= 1, params[:per_page],
-      @products.total_pages, @products.total_entries
+    if params[:get_all].blank?
+      json_response_pagination parse_json(@products), params[:page] ||= 1, params[:per_page],
+        @products.total_pages, @products.total_entries
+    else
+      json_response(parse_json @products)
+    end
   end
 
   def show
@@ -44,7 +48,11 @@ class Api::StoreOwner::ProductsController < Api::StoreOwner::StoreOwnersControll
   end
 
   def load_products
-    @products = @store.products.includes(:images, :sizes)
-      .paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
+    @products = if params[:get_all].blank?
+      @store.products.includes(:images, :sizes)
+        .paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
+    else
+      @store.products
+    end
   end
 end

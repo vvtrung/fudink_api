@@ -7,6 +7,10 @@ class Message
     "Invalid credentials"
   end
 
+  def self.account_blocked
+    "Account has been blocked"
+  end
+
   def self.invalid_token
     "Invalid token"
   end

@@ -4,6 +4,7 @@ class Api::OrdersController < ApplicationController
   before_action :check_empty_Cart, only: :create
   before_action :load_carts, only: :create
   before_action :load_orders, only: :index
+  before_action :load_order, only: :show
   authorize_resource
 
   def index
@@ -19,6 +20,17 @@ class Api::OrdersController < ApplicationController
     end
   end
 
+  def show
+    hash_source = {
+      order: @order,
+      store: {
+        latitude: @order.store&.latitude,
+        longitude: @order.store&.longitude
+      }
+    }
+    json_response hash_source
+  end
+
   def create
     Order.transaction do
       @products_cart.each do |store, products|
@@ -26,9 +38,9 @@ class Api::OrdersController < ApplicationController
         total = ship_cost.present? ? (get_total + ship_cost) : get_total
         order = @current_user.orders.create!(orders_params.merge! store_id: store.id,
           total: total, ship_cost: ship_cost)
-        # create_notification store.store_owner.id, @current_user.name
+        create_notification store.store_owner.id, @current_user.name, order.id
         products.each do |product|
-          cart_item = Cart.find_by! product_id: product.id
+          cart_item = @current_user.carts.find_by! product_id: product.id
           order.detail_orders.create! product_id: product.id, size_id: cart_item.size_id,
             quantity: cart_item.quantity, price: cart_item.size.price
         end
@@ -50,9 +62,9 @@ class Api::OrdersController < ApplicationController
 
   def load_orders
     @orders = if params[:get_all].present?
-      @current_user.orders.includes(:customer, :detail_orders)
+      @current_user.orders.lastest.includes(:customer, :detail_orders)
     else
-      @current_user.orders.includes(:customer, :detail_orders)
+      @current_user.orders.lastest.includes(:customer, :detail_orders)
         .paginate page: params[:page] ||= 1, per_page: params[:per_page] ||= 10
     end
   end
@@ -65,7 +77,14 @@ class Api::OrdersController < ApplicationController
 
   def cal_ship_cost store
     distance = store.distance_to(params[:address], :km)
-    distance.nan? ? distance : distance * Settings.ship_cost
+    return nil if distance.nan?
+    distance = distance.floor
+    ship_cost = if distance <= Settings.ship_range
+      distance * Settings.ship_cost_in_range
+    else
+      Settings.ship_range * Settings.ship_cost_in_range
+        + (distance - Settings.ship_range) * Settings.ship_cost_out_range
+    end
   end
 
   def check_empty_Cart
@@ -73,7 +92,12 @@ class Api::OrdersController < ApplicationController
     render json: {success: false, message: Message.cart_empty}
   end
 
-  def create_notification user_id, customer
-    Notification.create! user_id: user_id, content: "You have a new order from #{customer}"
+  def create_notification user_id, customer, order_id
+    Notification.create! user_id: user_id, content: "You have a new order from #{customer}",
+      event_type: Notification.event_types.keys[1], event_id: order_id
+  end
+
+  def load_order
+    @order = Order.find_by! id: params[:id]
   end
 end

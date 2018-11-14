@@ -10,7 +10,7 @@ class ValidationErrorSerializer
     {
       resource: resource,
       field: field,
-      # code: code,
+      code: code,
       message: @message
     }
   end
@@ -29,12 +29,12 @@ class ValidationErrorSerializer
       default: @field.to_s
   end
 
-  # def code
-  #   I18n.t @detail,
-  #     locale: :api,
-  #     scope: [:api, :errors, :code],
-  #     default: @detail.to_s
-  # end
+  def code
+    I18n.t @detail,
+      locale: :api,
+      scope: [:api, :errors, :code],
+      default: @detail.to_s
+  end
 
   def underscored_resource_name
     @record.class.to_s.gsub("::", "").underscore

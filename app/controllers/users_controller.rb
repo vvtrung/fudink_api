@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate!, only: :update
+  before_action :authenticate!, only: %i(update password)
   before_action :current_ability, only: :update
   authorize_resource only: :update
 
@@ -13,6 +13,11 @@ class UsersController < ApplicationController
     json_response parse_json(@current_user), Message.updated_success(User.name)
   end
 
+  def password
+    @current_user.update! change_password_params
+    json_response parse_json(@current_user), Message.updated_success(User.name)
+  end
+
   private
 
   def create_user_params
@@ -22,5 +27,9 @@ class UsersController < ApplicationController
 
   def update_user_params
     params.permit :name, :phone, :address
+  end
+
+  def change_password_params
+    params.permit :password, :password_confirmation
   end
 end

@@ -4,6 +4,7 @@ class ProductSerializer < ActiveModel::Serializer
   belongs_to :store
   has_many :sizes
   has_many :rates
+  has_many :images
 
   def sum_rate
     object.rates.size
@@ -19,8 +20,15 @@ class ProductSerializer < ActiveModel::Serializer
 
   def pictures
     pictures = []
-    pictures += object.images.each do |image|
-      image.media_link.present? ? image.media_link.url : ""
+    object.images.each do |image|
+      next unless image.link.url
+      pictures << (image_name image.link.url)
     end
+    pictures
+  end
+
+  def image_name image
+    img_name = image.split("/")[5]
+    img_name&.start_with?("http") ? image.gsub(/\/uploads\/image\/link\/(\d)*\//, "").gsub("%3A", ":/") : "https://fudink.herokuapp.com#{image}"
   end
 end

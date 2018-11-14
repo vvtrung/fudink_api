@@ -42,3 +42,4 @@ en:
   time:
     formats:
       short: "%H:%m"
+      date_time: "%d/%m/%Y %H:%M:%S"

@@ -13,8 +13,10 @@ class Order < ApplicationRecord
   validate :address_not_found
   validate :cant_back_status, if: :id?
 
+  scope :lastest, ->{order(created_at: :desc)}
+
   def address_not_found
-    return unless ship_cost.nan?
+    return if ship_cost.present?
     errors.add :address, :invalid
   end
 

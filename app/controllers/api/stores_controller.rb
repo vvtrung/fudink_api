@@ -29,7 +29,7 @@ class Api::StoresController < ApplicationController
   private
 
   def load_store
-    @store = Store.find params[:id]
+    @store = Store.accepted.find_by! id: params[:id]
   end
 
   def load_stores_accepted

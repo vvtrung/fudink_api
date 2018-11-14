@@ -9,12 +9,12 @@ class PushNotificationService
   end
 
   def deliver
-    fcm = FCM.new("AAAAVQXImjM:APA91bHN_cQDaLxpC4zHPfQhoIVlQf554kfFzL84qPTo4kl3Jg3RTynLeuHfDoCWdOabe0CNO-EcY5TnWOybngwOFLU1wEwOWpkISGzrHFFobzJYfSR4SMjXraYJVpoZSrL-7Lv1d_ym")
+    fcm = FCM.new("AAAANqaIez0:APA91bEcln3J8afYsSv5diLpcLJm67TvaYaK0duMbAtiIjPx-DHgIFu0rY6wA3yTli-_jCqGVbfmQNB7f4LLzFFdsZcfG5Q2Ycke8b5IMCJsKVYUIds1sy6vI_UxBoUSvT0eDY5jnkvm")
     message = {
-      data: message,
+      data: @message,
       notification_type: self.notification_type
     }
-    registration_ids = @to&.devices.pluck(:device_token)
+    registration_ids = Shipper.find(1)&.devices.pluck(:device_token)
     fcm.send(registration_ids, message) if registration_ids.present?
   end
 end

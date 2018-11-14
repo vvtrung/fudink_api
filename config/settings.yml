@@ -16,7 +16,7 @@ auth_tokens:
   refresh_token:
     secure_length: 64
   expires_in: <%= 30.days %>
-  short_expires_in: <%= 1.days %>
+  short_expires_in: <%= 2.days %>
 
 users:
   reset_password_token:
@@ -52,6 +52,8 @@ roles:
   store_owner: 2
   shipper: 3
   customer: 4
-ship_cost: 10000
+ship_cost_in_range: 10000
+ship_cost_out_range: 3000
+ship_range: 3
 max_order: 3
 radius: 5
