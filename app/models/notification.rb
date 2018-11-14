@@ -6,6 +6,7 @@ class Notification < ApplicationRecord
   scope :lastest, ->{order created_at: :desc}
 
   def send_notification
-    NotificationBroadcastJob.perform_now(Notification.count, self)
+    # NotificationBroadcastJob.perform_now(Notification.count, self)
+    Pusher.trigger "notification_channel", "new", self.as_json
   end
 end

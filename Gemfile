@@ -7,7 +7,7 @@ end
 
 gem "rails", "~> 5.1.6"
 gem "puma", "~> 3.7"
-gem "redis", "~> 3.0"
+# gem "redis", "~> 3.0"
 gem "faker"
 gem "active_model_serializers", "~> 0.10.0"
 gem "bcrypt", "~> 3.1.7"
@@ -22,6 +22,7 @@ gem "mini_magick", "4.7.0"
 gem "cancancan", "~> 2.0"
 gem "geocoder"
 gem "fcm"
+gem "pusher"
 
 group :development, :test do
   gem "sqlite3", "1.3.13"

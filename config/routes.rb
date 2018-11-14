@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :orders
     resources :rates, only: :create
     resources :permissions, only: :index
+    resources :notifications, only: %(index update)
     scope module: "store_owner", path: "dashboard" do
       resources :stores
       resources :stores do
@@ -29,5 +30,5 @@ Rails.application.routes.draw do
     post "/signup", to: "users#create"
     patch "/profile", to: "users#update"
   end
-  mount ActionCable.server => "/cable"
+  # mount ActionCable.server => "/cable"
 end
